@@ -89,7 +89,7 @@ import { apply, assign } from '@drukas/xdux'
 
 const { setCount, incrementCount } = myModule.actions({
   setCount: ['Set count', assign(lenses.count)],
-  incrementCount: ['Increment count', apply(x => x + 1)],
+  incrementCount: ['Increment count', apply(lenses.count, x => x + 1)],
 })
 ```
 
