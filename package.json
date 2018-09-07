@@ -1,6 +1,6 @@
 {
   "name": "@drukas/xdux",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "An opinionated redux library for creating actions and reducers.",
   "peerDependencies": {
     "ramda": "0.25.0",
