@@ -1,0 +1,44 @@
+{
+  "name": "@drukas/xdux",
+  "version": "0.0.6",
+  "description": "An opinionated redux library for creating actions and reducers.",
+  "peerDependencies": {
+    "ramda": "0.25.0",
+    "redux-actions": "2.6.1"
+  },
+  "dependencies": {
+    "invariant": "2.2.1",
+    "lodash.camelcase": "4.3.0"
+  },
+  "devDependencies": {
+    "husky": "1.0.0-rc.2",
+    "lint-staged": "7.2.0",
+    "prettier": "1.14.0"
+  },
+  "module": "src/index.js",
+  "scripts": {
+    "prettier": "npx prettier --write \"src/**/*.{js,jsx}\""
+  },
+  "keywords": [
+    "xdux",
+    "redux",
+    "flux",
+    "action",
+    "actions",
+    "reducer",
+    "lens"
+  ],
+  "author": "Dmytro Ulianov <@drukas>",
+  "license": "MIT",
+  "lint-staged": {
+    "src/**/*.js": [
+      "npx prettier --write",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
+}
