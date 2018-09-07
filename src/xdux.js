@@ -1,5 +1,6 @@
 import invariant from 'invariant'
 import { createAction, handleActions } from 'redux-actions'
+import { prop } from 'ramda'
 
 const makeCreateType = namespace => type => `[${namespace}] ${type}`
 
