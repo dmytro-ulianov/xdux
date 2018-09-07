@@ -1,3 +1,2 @@
 export * from './helpers'
-export { default as xdux } from './xdux'
-export default xdux
+export { default, default as xdux } from './xdux'
