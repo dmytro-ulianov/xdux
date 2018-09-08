@@ -26,11 +26,11 @@ Here is the example of simple xdux module.
 
 ```js
 import * as R from 'ramda'
-import xdux, { makeCreateAction } from '@drukas/xdux'
+import xdux from '@drukas/xdux'
 
 export const config = {
-  namespace: 'My module' // will be used as prefix for actions
-  sliceName: 'myModule' // state in store will be accessable as store.myModule
+  namespace: 'My module' // used as prefix for actions
+  sliceName: 'myModule' // state in store accessable as store.myModule
 }
 
 export const initialState = {
@@ -39,7 +39,7 @@ export const initialState = {
 }
 
 export const lenses = {
-  count: R.lensProp('version'),
+  count: R.lensProp('count'),
   libName: R.lensPath(['lib', 'name']),
 }
 
@@ -60,7 +60,7 @@ But basically lens is a unit that combines both set and get functions.
 import * as R from 'ramda'
 import myModule, { createAction, lenses } from './module'
 
-/* Here you will see two ways for creating actions and handlers */
+/* There are two ways of creating actions and handlers */
 
 /* The first "two-steps" way */
 const setCount = createAction('Set count')
@@ -100,6 +100,7 @@ import * as R from 'ramda'
 import { lenses, sliceSelector as _ } from './module'
 
 export const getCount = _(R.view(lenses.count))
+export const getLibName = _(R.view(lenses.libName))
 ```
 
 And then when it's time to use it as a reducer, you simply do
@@ -109,4 +110,7 @@ import { combineReducers } from 'redux'
 import myModule from './module'
 
 const myReducer = myModule.reducer()
+
+/* also you can access module sliceName via reducer */
+myReducer.sliceName // myModule
 ```
