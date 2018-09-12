@@ -23,7 +23,7 @@ export const makeSliceSelector = sliceName => selector => state =>
  * @returns Object {
  *   createAction,
  *   sliceSelector,
- *   module: {actions: (function), getReducer: (function), handle: (function)},
+ *   module: {actions: function, handlers: function, reducer: function},
  * }
  */
 const xdux = ({ initialState, config }) => {
