@@ -1,6 +1,5 @@
 <img src="./assets/xdux_logo.svg" style="width: 150px; height: 50px"/>
 <br />
-<br />
 
 An opinionated [redux](https://redux.js.org/) library for creating actions and reducers, that gives you an ability to declare actions and handlers in one place.
 
