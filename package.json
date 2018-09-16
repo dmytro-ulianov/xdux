@@ -1,16 +1,13 @@
 {
   "name": "@drukas/xdux",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "An opinionated redux library for creating actions and reducers.",
   "peerDependencies": {
     "ramda": "0.25.0",
     "redux-actions": "2.6.1"
   },
   "dependencies": {
-    "invariant": "2.2.1",
-    "lodash.camelcase": "4.3.0",
-    "ramda": "0.25.0",
-    "redux-actions": "2.6.1"
+    "invariant": "2.2.1"
   },
   "devDependencies": {
     "@babel/core": "7.0.0",
