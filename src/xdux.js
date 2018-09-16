@@ -48,6 +48,12 @@ const xdux = ({ initialState, config }) => {
     sliceSelector,
 
     module: {
+      action: (title, handler) => {
+        const newAction = createAction(title)
+        handlers[newAction] = handler
+        return newAction
+      },
+
       actions: actionHandlers => {
         const actions = {}
         Object.entries(actionHandlers).forEach(([name, [title, handler]]) => {
