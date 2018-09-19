@@ -1,6 +1,6 @@
 import invariant from 'invariant'
 import { createAction, handleActions } from 'redux-actions'
-import { prop } from 'ramda'
+import { isNil, prop } from 'ramda'
 
 const makeCreateType = namespace => type => `[${namespace}] ${type}`
 
@@ -29,7 +29,7 @@ export const makeSliceSelector = sliceName => selector => state =>
 const xdux = ({ initialState, config }) => {
   const { namespace, sliceName } = config
 
-  invariant(!!initialState, `Expected initialState to be defined`)
+  invariant(!isNil(initialState), `Expected initialState to be defined`)
 
   invariant(
     typeof sliceName === 'string' && typeof namespace === 'string',
