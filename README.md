@@ -116,6 +116,157 @@ const myReducer = myModule.reducer()
 myReducer.sliceName // myModule
 ```
 
-### Types
+### API
 
 **`xdux({ initialState, config: { namespace, sliceName } })`**
+
+```js
+import xdux from '@drukas/xdux'
+
+const count = xdux({
+  config: { namespace: 'Count', sliceName: 'count' },
+  initialState: 0,
+})
+```
+
+**`createAction(name, ?payloadCreator, ?metaCreator)`**
+
+```js
+import xdux from '@drukas/xdux'
+
+const { createAction } = xdux({
+  config: { namespace: 'Count', sliceName: 'count' },
+  initialState: 0,
+})
+
+// Powered by redux-actions
+const increment = createAction('Increment')
+increment() // { type: '[Count] Increment', payload: undefined }
+
+// Also you can pass any arguments, that will be stored in payload
+const add = createAction('Add')
+add(10) // { type: '[Count] Add', payload: 10 }
+```
+
+**`sliceSelector(select)`**
+
+```js
+import xdux from '@drukas/xdux'
+
+const { sliceSelector } = xdux({
+  config: { namespace: 'Count', sliceName: 'count' },
+  initialState: 0,
+})
+
+const appState = { count: 10 }
+const getCount = sliceSelector(count => count)
+logCount(appState) // 10
+
+// idiomatic approach is usage with Ramda
+import * as R from 'ramda'
+const sliceName = 'user'
+const user = { name: 'John', profile: { status: 'active' } }
+const { sliceSelector as _ } = xdux(/*...*/)
+
+const statusLens = R.lensPath(['profile', 'status'])
+const getStatus = _(R.view(statusLens))
+getStatus({ user }) // active
+```
+
+**`module.action(title, handler)`**
+
+```js
+import xdux from '@drukas/xdux'
+
+const { module } = xdux({
+  config: { namespace: 'Count', sliceName: 'count' },
+  initialState: 0,
+})
+
+// Creates both action and handler
+const increment = module.action('Increment', state => state + 1)
+increment() // { type: '[Count] Increment', payload: undefined }
+```
+
+**`module.actions(handlersMap)`**
+
+```js
+import xdux from '@drukas/xdux'
+
+const { module } = xdux({
+  config: { namespace: 'Count', sliceName: 'count' },
+  initialState: 0,
+})
+
+// Creates many actions and handlers
+const { increment, decrement } = module.actions({
+  increment: ['Increment', state => state + 1],
+  decrement: ['Decrement', state => state - 1],
+})
+increment() // { type: '[Count] Increment', payload: undefined }
+increment() // { type: '[Count] Decrement', payload: undefined }
+```
+
+**`module.handlers(handlersMap)`**
+
+```js
+import xdux from '@drukas/xdux'
+
+const { createAction, module } = xdux({
+  config: { namespace: 'Count', sliceName: 'count' },
+  initialState: 0,
+})
+
+// Creates handlers
+const increment = createAction('Increment')
+const decrement = createAction('Decrement')
+module.handlers({
+  [increment]: state => state + 1,
+  [decrement]: state => state - 1,
+})
+```
+
+**`module.reducer()`**
+
+```js
+import xdux from '@drukas/xdux'
+
+const { module: count } = xdux({
+  config: { namespace: 'Count', sliceName: 'count' },
+  initialState: 0,
+})
+
+const { add, decrement, increment } = count.actions({
+  add: ['Add', (state, { payload }) => state + payload],
+  decrement: ['Decrement', state => state - 1],
+  increment: ['Increment', state => state + 1],
+})
+
+const countReducer = count.reducer()
+
+const actions = [increment(), decrement(), add(5)]
+
+actions.reduce(countReducer, 0) // 5
+```
+
+**`apply(lens, handler)`**
+**`assign(lens)`**
+
+```js
+import { lensProp } from 'ramda'
+import xdux, { apply, assign } from '@drukas/xdux'
+
+const { module } = xdux({
+  config: { namespace: 'Count', sliceName: 'count' },
+  initialState: { name: 'clicks', value: 0 },
+})
+const lenses = {
+  name: lensProp('name'),
+  count: lensProp('value'),
+}
+
+const { add, setName } = module.actions({
+  add: ['Add', apply(lenses.value, (value, payload) => value + payload)],
+  setName: ['Set name', assign(lenses.name)],
+})
+```
